@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Image Forgery Detection</title> <!-- Updated title here -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('img.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+        }
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        nav {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Image Forgery Detection</h1>
+         <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+
+    <form method="post" action="/predict" enctype="multipart/form-data">
+    <input type="file" name="file" onchange="displayImage()">
+    <div id="uploaded-image-container" style="display: none;">
+        <img id="uploaded-image" style="max-width: 60%; height: auto;" alt="Uploaded Image">
+    </div>
+    <input type="submit" value="Predict">
+</form>
+
+    {% if prediction_result %}
+        <p> {{ prediction_result }}</p>
+    {% endif %}
+ <script>
+        function displayImage() {
+            var input = document.querySelector('input[type="file"]');
+            var file = input.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var uploadedImageContainer = document.getElementById('uploaded-image-container');
+                    var uploadedImage = document.getElementById('uploaded-image');
+                    uploadedImage.src = e.target.result;
+                    uploadedImageContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    <footer>
+        &copy; 2023 Image Prediction App
+    </footer>
+</body>
+</html>
